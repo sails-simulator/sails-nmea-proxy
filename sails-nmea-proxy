@@ -70,7 +70,7 @@ def main(ip, port, delay):
                           datetime.datetime.now())
             send_nmea_message(sock, message, (ip, port))
 
-            message = hdm(boat.heading)
+            message = hdm(boat.heading * 180/math.pi)
             send_nmea_message(sock, message, (ip, port))
 
             time.sleep(delay)
