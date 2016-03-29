@@ -24,6 +24,12 @@ def degrees_to_nmea(input_degrees):
     return '{}{:.3g}'.format(degrees, abs(minutes))
 
 
+def hdm(heading):
+    '''Return a HDM nmea sentance from a given heading'''
+    line = 'HDM,{0:.3g},M'.format(heading)
+    return nmea_line(line)
+
+
 def gll(latitude, longitude, utc_datetime):
     '''
     Return a GLL nmea sentance from a lat, long and date (datetime object).
