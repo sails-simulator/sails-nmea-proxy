@@ -6,6 +6,9 @@ import socket
 import sys
 import time
 
+import sailsd
+
+
 def calculate_checksum(line):
     '''Return the NMEA checksum for a given line'''
     x = 0
@@ -51,10 +54,16 @@ def main(ip, port, delay):
     sock = socket.socket(socket.AF_INET,
                          socket.SOCK_DGRAM)
 
-    message = gll(10, 10, datetime.datetime.now())
+    boat = sailsd.Boat()
 
     while True :
         try:
+            boat.update()
+
+            message = gll(boat.latitude,
+                          boat.longitude,
+                          datetime.datetime.now())
+
             message = message + u"\r\n"
             sock.sendto(message.encode("utf-8"), (ip, port))
             time.sleep(delay)
