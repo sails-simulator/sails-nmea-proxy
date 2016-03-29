@@ -15,11 +15,9 @@ def main(ip, port, delay):
             sock.sendto(message.encode("utf-8"), (ip, port))
             time.sleep(delay)
         except KeyboardInterrupt:
-            f.close()
             sock.close()
         except Exception as msg:
             print(msg)
-            f.close()
             sock.close()
 
 if __name__ == '__main__':
