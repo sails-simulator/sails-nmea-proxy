@@ -1,7 +1,34 @@
 #!/usr/bin/env python
 
+import math
 import socket
 import time
+
+def nmea_line(line):
+    checksum = calculate_checksum(line)
+    return '$' + line + '*' + checksum
+
+
+def degrees_to_nmea(input_degrees):
+    degrees = math.trunc(input_degrees)
+    minutes = (input_degrees - degrees) * 60
+    return '{}{:.3g}'.format(degrees, abs(minutes))
+
+
+def gll(latitude, longitude, utc_datetime):
+    '''
+    Return a GLL nmea sentance from a lat, long and date (datetime object).
+    '''
+    centisecond = str(utc_datetime.microsecond)[:2]
+    t = utc_datetime.strftime('%H%M%S.') + centisecond
+    lat_direction = 'N' if latitude > 0 else 'S'  # noqa
+    lon_direction = 'E' if longitude > 0 else 'W'  # noqa
+    line = 'GLL,{lat},N,{lon},W,{time},A'.format(
+        lat=degrees_to_nmea(abs(latitude)),
+        lon=degrees_to_nmea(abs(longitude)),
+        time=t)
+    return nmea_line(line)
+
 
 def main(ip, port, delay):
     sock = socket.socket(socket.AF_INET,
