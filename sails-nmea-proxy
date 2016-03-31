@@ -43,9 +43,11 @@ def gll(latitude, longitude, utc_datetime):
     t = utc_datetime.strftime('%H%M%S.') + centisecond
     lat_direction = 'N' if latitude > 0 else 'S'  # noqa
     lon_direction = 'E' if longitude > 0 else 'W'  # noqa
-    line = 'GPGLL,{lat},N,{lon},W,{time},A'.format(
+    line = 'GPGLL,{lat},{lat_dir},{lon},{lon_dir},{time},A'.format(
         lat=degrees_to_nmea(abs(latitude)),
         lon=degrees_to_nmea(abs(longitude)),
+        lat_dir=lat_direction,
+        lon_dir=lon_direction,
         time=t)
     return nmea_line(line)
 
