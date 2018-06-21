@@ -23,10 +23,15 @@ def nmea_line(line):
     return '$' + line + '*' + checksum
 
 
-def degrees_to_nmea(input_degrees):
+def degrees_to_nmea(input_degrees, places = 3):
     degrees = math.trunc(input_degrees)
     minutes = (input_degrees - degrees) * 60
-    return '{}{:.3g}'.format(degrees, abs(minutes))
+    if places == 2:
+        return '{:02}{:07.4f}'.format(degrees, abs(minutes))
+    elif places == 3:
+        return '{:03}{:07.4f}'.format(degrees, abs(minutes))
+    else:
+        return '{}{:07.4f}'.format(degrees, abs(minutes))
 
 
 def hdm(heading):
@@ -44,8 +49,8 @@ def gll(latitude, longitude, utc_datetime):
     lat_direction = 'N' if latitude > 0 else 'S'  # noqa
     lon_direction = 'E' if longitude > 0 else 'W'  # noqa
     line = 'GPGLL,{lat},{lat_dir},{lon},{lon_dir},{time},A'.format(
-        lat=degrees_to_nmea(abs(latitude)),
-        lon=degrees_to_nmea(abs(longitude)),
+        lat=degrees_to_nmea(abs(latitude),2),
+        lon=degrees_to_nmea(abs(longitude),3),
         lat_dir=lat_direction,
         lon_dir=lon_direction,
         time=t)
