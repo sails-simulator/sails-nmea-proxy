@@ -68,8 +68,8 @@ def main(ip, port, delay):
                          socket.SOCK_DGRAM)
 
     host = os.getenv('SAILSD_HOST', 'localhost')
-    port = int(os.getenv('SAILSD_PORT', '3333'))
-    sails = sailsd.Sailsd(host, port)
+    sails_port = int(os.getenv('SAILSD_PORT', '3333'))
+    sails = sailsd.Sailsd(host, sails_port)
 
     boat = sailsd.Boat(sailsd=sails)
 
