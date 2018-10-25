@@ -1,1 +1,1 @@
-python-sailsd
+git+https://github.com/sails-simulator/python-sailsd.git
