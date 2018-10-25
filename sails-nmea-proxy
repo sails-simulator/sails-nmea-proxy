@@ -2,6 +2,7 @@
 
 import datetime
 import math
+import os
 import socket
 import sys
 import time
@@ -66,7 +67,11 @@ def main(ip, port, delay):
     sock = socket.socket(socket.AF_INET,
                          socket.SOCK_DGRAM)
 
-    boat = sailsd.Boat()
+    host = os.getenv('SAILSD_HOST', 'localhost')
+    port = int(os.getenv('SAILSD_PORT', '3333'))
+    sails = sailsd.Sailsd(host, port)
+
+    boat = sailsd.Boat(sailsd=sails)
 
     while True :
         try:
